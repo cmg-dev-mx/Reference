@@ -22,7 +22,7 @@ import mx.dev.cmg.android.reference.presentation.ui.components.atoms.TitleText
 import mx.dev.cmg.android.reference.ui.theme.ReferenceTheme
 
 /**
- * Share Dialog Template Component
+ * Share Dialog Template Component - Referral Edition 💀⚡
  * 
  * Follows Figma design specifications with top alignment:
  * - Surface background color (#d3d3d3)
@@ -30,6 +30,7 @@ import mx.dev.cmg.android.reference.ui.theme.ReferenceTheme
  * - Elements aligned to top instead of center
  * - Proper spacing between title, description and button
  * - Button centered horizontally with specific width
+ * - Dark magic infusion for referral invitation system 🌟
  */
 @Composable
 fun ShareDialogTemplate(
@@ -82,16 +83,16 @@ fun ShareDialogTemplatePreview() {
     ReferenceTheme {
         ShareDialogTemplate(
             title = {
-                TitleText(text = "Reference App")
+                TitleText(text = "Referir un Amigo")
             },
             description = {
                 ContentText(
-                    text = "This is a demo app, to share to friends and family as a reference to the actual user account."
+                    text = "¡Invita a tus amigos y obtén beneficios exclusivos! Comparte tu código de referido único."
                 )
             },
             actionButton = {
                 PrimaryButton(
-                    text = "Share with someone",
+                    text = "Enviar invitación",
                     onClick = { }
                 )
             }

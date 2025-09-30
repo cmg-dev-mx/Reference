@@ -12,12 +12,12 @@ data class ShareState(
     val isLoading: Boolean = false,
     val installedApps: List<InstalledApp> = emptyList(),
     val isLoadingApps: Boolean = false,
-    val title: String = "Reference App",
-    val description: String = "This is a demo app, to share to friends and family as a reference to the actual user account.",
-    val buttonText: String = "Share with someone",
+    val title: String = "Referir un Amigo",
+    val description: String = "Invita a tus amigos a Boost Mobile y ambos obtendrán beneficios increíbles.",
+    val buttonText: String = "Enviar Referido",
     val error: String? = null,
-    val shareContent: String = "Check out this amazing Reference App!",
-    val shareUrl: String? = null,
+    val shareContent: String = "¡Te invito a unirte a Boost Mobile! Ambos obtendremos beneficios.",
+    val shareUrl: String? = "https://boostmobile.com/refer?code=REF123&user=demo",
     val isSharingAvailable: Boolean = true
 )
 

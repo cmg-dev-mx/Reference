@@ -10,15 +10,15 @@ import mx.dev.cmg.android.reference.presentation.ui.components.templates.ShareDi
 import mx.dev.cmg.android.reference.ui.theme.ReferenceTheme
 
 /**
- * Share Dialog Screen Component
+ * Share Dialog Screen Component - Referral Magic Edition 🌟💀
  * 
- * Implements the main share dialog screen following Figma design specifications.
+ * Implements the main referral invitation screen following Figma design specifications.
  * Uses Atomic Design methodology with Templates and Atoms.
  * 
  * This is the main screen that shows:
- * - App title: "Reference App"
- * - Description text explaining the demo app purpose
- * - Primary action button: "Share with someone"
+ * - App title: "Referir un Amigo"
+ * - Description text explaining the referral program benefits
+ * - Primary action button: "Enviar invitación"
  */
 @Composable
 fun ShareDialogScreen(
@@ -28,16 +28,16 @@ fun ShareDialogScreen(
     ShareDialogTemplate(
         modifier = modifier,
         title = {
-            TitleText(text = "Reference App")
+            TitleText(text = "Referir un Amigo")
         },
         description = {
             ContentText(
-                text = "This is a demo app, to share to friends and family as a reference to the actual user account."
+                text = "¡Invita a tus amigos y obtén beneficios exclusivos! Comparte tu código de referido único y ayuda a crecer nuestra comunidad."
             )
         },
         actionButton = {
             PrimaryButton(
-                text = "Share with someone",
+                text = "Enviar invitación",
                 onClick = onShareClick
             )
         }
