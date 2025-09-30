@@ -31,7 +31,8 @@ import javax.inject.Inject
 class ShareDialogViewModel @Inject constructor(
     private val getInstalledAppsUseCase: GetInstalledAppsUseCase,
     private val shareContentUseCase: ShareContentUseCase,
-    private val filterAppsByCategoryUseCase: FilterAppsByCategoryUseCase
+    private val filterAppsByCategoryUseCase: FilterAppsByCategoryUseCase,
+    private val copyToClipboardUseCase: mx.dev.cmg.android.reference.domain.usecase.CopyToClipboardUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ShareState())
@@ -52,6 +53,7 @@ class ShareDialogViewModel @Inject constructor(
         when (intent) {
             is ShareIntent.LoadInstalledApps -> loadInstalledApps()
             is ShareIntent.ShareClicked -> handleShareClicked()
+            is ShareIntent.CopyToClipboardClicked -> handleCopyToClipboard()
             is ShareIntent.ShareToSpecificApp -> shareToSpecificApp(intent.app)
             is ShareIntent.RefreshApps -> refreshApps()
             is ShareIntent.DismissError -> dismissError()
@@ -125,6 +127,41 @@ class ShareDialogViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = "Failed to share: ${e.message}"
+                )
+                _events.send(ShareEvent.ShowError(e.message ?: "Unknown error"))
+            }
+        }
+    }
+    
+    /**
+     * Handles copy to clipboard button click
+     */
+    private fun handleCopyToClipboard() {
+        viewModelScope.launch {
+            try {
+                _state.value = _state.value.copy(isLoading = true, error = null)
+                
+                val shareContent = ShareContent(
+                    title = _state.value.title,
+                    text = _state.value.shareContent,
+                    url = _state.value.shareUrl
+                )
+                
+                val success = copyToClipboardUseCase(shareContent)
+                
+                _state.value = _state.value.copy(isLoading = false)
+                
+                if (success) {
+                    _events.send(ShareEvent.CopiedToClipboard)
+                    _events.send(ShareEvent.ShowSuccess("Código de referido copiado al portapapeles"))
+                } else {
+                    _state.value = _state.value.copy(error = "No se pudo copiar al portapapeles")
+                    _events.send(ShareEvent.ShowError("No se pudo copiar al portapapeles"))
+                }
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = "Error al copiar: ${e.message}"
                 )
                 _events.send(ShareEvent.ShowError(e.message ?: "Unknown error"))
             }

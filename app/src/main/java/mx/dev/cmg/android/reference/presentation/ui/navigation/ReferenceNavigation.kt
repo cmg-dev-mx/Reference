@@ -36,6 +36,9 @@ fun ReferenceNavigation(
                     .fillMaxSize(),
                 onShareClick = {
                     viewModel.handleIntent(mx.dev.cmg.android.reference.presentation.state.ShareIntent.ShareClicked)
+                },
+                onCopyToClipboardClick = {
+                    viewModel.handleIntent(mx.dev.cmg.android.reference.presentation.state.ShareIntent.CopyToClipboardClicked)
                 }
             )
         }

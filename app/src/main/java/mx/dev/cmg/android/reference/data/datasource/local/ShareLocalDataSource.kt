@@ -1,5 +1,7 @@
 package mx.dev.cmg.android.reference.data.datasource.local
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
@@ -93,5 +95,29 @@ class ShareLocalDataSource @Inject constructor(
         
         val packageManager = context.packageManager
         shareIntent.resolveActivity(packageManager) != null
+    }
+    
+    /**
+     * Copies text to clipboard
+     * @param label User-visible label for the clip data
+     * @param text The text to copy to clipboard
+     * @return True if the text was successfully copied
+     */
+    suspend fun copyToClipboard(
+        label: String,
+        text: String
+    ): Boolean = withContext(Dispatchers.Main) {
+        try {
+            val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            if (clipboardManager != null) {
+                val clip = ClipData.newPlainText(label, text)
+                clipboardManager.setPrimaryClip(clip)
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
     }
 }
