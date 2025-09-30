@@ -40,20 +40,24 @@ fun TitleText(
  * - Kode Mono Regular 12sp font
  * - OnSurface color (#2b2b2b)
  * - Used for descriptions and body content
+ * - Supports multiline text with proper overflow handling
  */
 @Composable
 fun ContentText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.bodySmall,
         color = color,
         modifier = modifier,
-        textAlign = textAlign
+        textAlign = textAlign,
+        maxLines = maxLines,
+        overflow = androidx.compose.ui.text.style.TextOverflow.Clip
     )
 }
 

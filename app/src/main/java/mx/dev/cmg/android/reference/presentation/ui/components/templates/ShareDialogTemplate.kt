@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,12 +24,12 @@ import mx.dev.cmg.android.reference.ui.theme.ReferenceTheme
 /**
  * Share Dialog Template Component
  * 
- * Follows Figma design specifications:
+ * Follows Figma design specifications with top alignment:
  * - Surface background color (#d3d3d3)
  * - 16dp padding on all sides
- * - Centered column layout with 16dp gaps
- * - 32dp spacer before button (from Figma design)
- * - Composable slots for flexible content
+ * - Elements aligned to top instead of center
+ * - Proper spacing between title, description and button
+ * - Button centered horizontally with specific width
  */
 @Composable
 fun ShareDialogTemplate(
@@ -41,24 +42,36 @@ fun ShareDialogTemplate(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+            .padding(16.dp)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopStart), // Align to top instead of center
+            horizontalAlignment = Alignment.Start, // Align content to start for title/description
+            verticalArrangement = Arrangement.Top
         ) {
-            // Title slot
+            // Title slot - aligned to start (left)
             title()
             
-            // Description slot
+            // Spacing between title and description (y=63 - y=16 - height=31 = 16dp approx)
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Description slot - aligned to start (left)
             description()
             
-            // 32dp spacer as shown in Figma design
-            Spacer(modifier = Modifier.height(32.dp))
+            // Spacing between description and button (y=157 - y=63 - height=30 = 64dp approx)
+            Spacer(modifier = Modifier.height(64.dp))
             
-            // Action button slot
-            actionButton()
+            // Button slot - centered horizontally with specific width
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(modifier = Modifier.width(237.dp)) {
+                    actionButton()
+                }
+            }
         }
     }
 }
