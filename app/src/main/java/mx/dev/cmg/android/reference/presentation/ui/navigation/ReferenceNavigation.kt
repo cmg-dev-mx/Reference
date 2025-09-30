@@ -1,6 +1,9 @@
 package mx.dev.cmg.android.reference.presentation.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,8 +31,11 @@ fun ReferenceNavigation(
             val viewModel: ShareDialogViewModel = hiltViewModel()
             
             ShareDialogScreen(
+                modifier = Modifier
+                    .systemBarsPadding()
+                    .fillMaxSize(),
                 onShareClick = {
-                    viewModel.handleIntent(mx.dev.cmg.android.reference.presentation.state.ShareDialogIntent.ShareClicked)
+                    viewModel.handleIntent(mx.dev.cmg.android.reference.presentation.state.ShareIntent.ShareClicked)
                 }
             )
         }

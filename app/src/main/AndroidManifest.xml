@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Queries for accessing installed apps that support sharing (Android 11+) -->
+    <queries>
+        <!-- Query for apps that can handle ACTION_SEND -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="text/plain" />
+        </intent>
+        <!-- Query for apps that can handle ACTION_SEND with any MIME type -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
     <application
         android:name=".ReferenceApplication"
         android:allowBackup="true"
