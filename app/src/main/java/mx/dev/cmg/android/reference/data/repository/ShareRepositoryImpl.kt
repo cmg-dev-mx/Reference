@@ -121,4 +121,23 @@ class ShareRepositoryImpl @Inject constructor(
     override suspend fun isSharingAvailable(): Boolean {
         return shareLocalDataSource.isSharingSupported()
     }
+    
+    /**
+     * Copies referral content to clipboard
+     * Dark magic: Transforms content into clipboard-ready referral message 📋⚡
+     */
+    override suspend fun copyToClipboard(content: ShareContent): Boolean {
+        // Transform content into referral invitation using dark magic 🌟
+        val referralContent = createReferralMessage(content)
+        
+        // Create the full message to copy
+        val clipboardText = """
+            ${referralContent.text}
+        """.trimIndent()
+        
+        return shareLocalDataSource.copyToClipboard(
+            label = content.title,
+            text = clipboardText
+        )
+    }
 }

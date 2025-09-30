@@ -37,4 +37,11 @@ interface ShareRepository {
      * @return True if sharing is supported, false otherwise
      */
     suspend fun isSharingAvailable(): Boolean
+    
+    /**
+     * Copies content to clipboard
+     * @param content The content to copy
+     * @return True if copied successfully, false otherwise
+     */
+    suspend fun copyToClipboard(content: ShareContent): Boolean
 }

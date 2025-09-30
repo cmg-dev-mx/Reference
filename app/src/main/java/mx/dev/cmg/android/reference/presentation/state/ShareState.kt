@@ -30,6 +30,7 @@ data class ShareState(
 sealed interface ShareIntent {
     object LoadInstalledApps : ShareIntent
     object ShareClicked : ShareIntent
+    object CopyToClipboardClicked : ShareIntent
     data class ShareToSpecificApp(val app: InstalledApp) : ShareIntent
     object RefreshApps : ShareIntent
     object DismissError : ShareIntent
@@ -49,4 +50,5 @@ sealed interface ShareEvent {
     data class ShowError(val message: String) : ShareEvent
     data class ShowSuccess(val message: String) : ShareEvent
     object ShareCancelled : ShareEvent
+    object CopiedToClipboard : ShareEvent
 }

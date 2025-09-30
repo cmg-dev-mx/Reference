@@ -37,7 +37,8 @@ fun ShareDialogTemplate(
     title: @Composable () -> Unit,
     description: @Composable () -> Unit,
     actionButton: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    secondaryActionButton: @Composable (() -> Unit)? = null
 ) {
     Box(
         modifier = modifier
@@ -71,6 +72,19 @@ fun ShareDialogTemplate(
             ) {
                 Box(modifier = Modifier.width(237.dp)) {
                     actionButton()
+                }
+            }
+            
+            // Secondary button slot - centered horizontally with specific width (if provided)
+            secondaryActionButton?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(modifier = Modifier.width(237.dp)) {
+                        it()
+                    }
                 }
             }
         }
