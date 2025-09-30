@@ -297,6 +297,7 @@ git checkout -b hotfix/critical-bug-description
 ### 📋 Preparación Antes de Codificar
 
 **Análisis de Diseño Figma:**
+
 1. **Extraer metadatos**: Usar Figma Dev Mode para obtener coordenadas exactas
 2. **Screenshot de referencia**: Capturar imagen del diseño final esperado
 3. **Especificaciones tipográficas**: Documentar fuentes, weights, sizes exactos
@@ -304,6 +305,7 @@ git checkout -b hotfix/critical-bug-description
 5. **Assets necesarios**: Identificar iconos, imágenes, fuentes a descargar
 
 **Preparación de Assets:**
+
 ```bash
 # 1. Crear estructura de recursos
 mkdir -p app/src/main/res/font
@@ -320,6 +322,7 @@ rm -f app/src/main/res/drawable/*.svg
 ### 🛠️ Desarrollo UI
 
 **Orden de implementación recomendado:**
+
 1. **Tema base**: Actualizar colors.xml y typography
 2. **Atoms**: Componentes básicos (botones, texto, iconos)
 3. **Templates**: Layouts reutilizables sin contenido
@@ -328,6 +331,7 @@ rm -f app/src/main/res/drawable/*.svg
 6. **Navegación**: Integración con navigation graph
 
 **Commits durante desarrollo UI:**
+
 ```bash
 # Commits granulares y descriptivos
 git commit -m "feat(theme): add Figma color palette and typography"
@@ -340,6 +344,7 @@ git commit -m "chore: remove incompatible SVG files from drawable resources"
 ### 🔍 Validación de Implementación
 
 **Checklist específico para UI:**
+
 - [ ] **Assets limpios**: No archivos SVG en drawable, solo vector drawables
 - [ ] **Fuentes correctas**: TTF descargados, no fallbacks genéricos
 - [ ] **Colores exactos**: Valores hexadecimales de Figma implementados
@@ -352,23 +357,28 @@ git commit -m "chore: remove incompatible SVG files from drawable resources"
 ### 📸 Documentación Visual
 
 **Screenshots requeridos:**
+
 - Captura de pantalla del resultado final
 - Comparación lado a lado: Figma vs Implementación
 - Preview de componentes individuales en Android Studio
 
 **En comentarios de PR:**
+
 ```markdown
 ## 📱 Screenshots
 
 ### Implementación Final
+
 ![Screenshot](screenshot_url)
 
 ### Comparación Figma vs Implementación
-| Figma | Implementación |
-|-------|---------------|
+
+| Figma               | Implementación  |
+| ------------------- | --------------- |
 | ![Figma](figma_url) | ![App](app_url) |
 
 ### Componentes Individuales
+
 - Atoms: Botones, textos, iconos
 - Templates: Layout structure
 - Screens: Resultado final
@@ -379,6 +389,7 @@ git commit -m "chore: remove incompatible SVG files from drawable resources"
 ## 📋 Checklist de Issue Completion
 
 ### General
+
 - [ ] Funcionalidad implementada completamente
 - [ ] Tests añadidos y pasando
 - [ ] Code review aprobado
@@ -388,6 +399,7 @@ git commit -m "chore: remove incompatible SVG files from drawable resources"
 - [ ] Demo/screenshot añadido al issue
 
 ### Específico para UI/Figma
+
 - [ ] Assets de Figma correctamente integrados
 - [ ] No archivos SVG incompatibles en el proyecto
 - [ ] Fuentes descargadas y configuradas correctamente
