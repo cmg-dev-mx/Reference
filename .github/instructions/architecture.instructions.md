@@ -416,4 +416,125 @@ object DataModule {
 
 ---
 
+## 🎨 Integración con Figma - Lecciones Aprendidas
+
+### 📐 Análisis de Diseño
+
+**Antes de implementar:**
+1. **Obtener metadatos exactos**: Usar herramientas de Figma para extraer coordenadas, dimensiones y espaciado
+2. **Analizar layout structure**: Determinar si el diseño usa posicionamiento absoluto o relativo
+3. **Identificar alineaciones**: Verificar si elementos están centrados o alineados a bordes específicos
+4. **Extraer especificaciones de tipografía**: Obtener family, weight, size y line-height exactos
+
+### 🖼️ Manejo de Assets
+
+**Fuentes tipográficas:**
+- ✅ **Descargar fuentes reales**: Usar Google Fonts o fuentes oficiales en lugar de fallbacks
+- ✅ **Formato correcto**: TTF/OTF para Android, crear FontFamily con weights específicos
+- ✅ **Nomenclatura Android**: Archivos font deben usar snake_case (ej: `kode_mono_regular.ttf`)
+- ❌ **No usar fallbacks genéricos**: Evitar `FontFamily.Monospace` cuando hay fuente específica
+
+**Recursos gráficos:**
+- ✅ **Convertir SVG a Vector Drawable**: Usar `<vector>` XML en lugar de archivos SVG directos
+- ✅ **Extraer iconos individualmente**: No incluir múltiples iconos en un solo archivo
+- ❌ **No incluir archivos SVG**: Android no soporta SVG nativamente en drawable
+- ❌ **No usar archivos auto-generados**: Limpiar assets temporales de herramientas de diseño
+
+### 📍 Posicionamiento y Layout
+
+**Interpretación de coordenadas Figma:**
+- **Coordenadas absolutas**: Generalmente indican posición relativa dentro de contenedor
+- **Alineación superior**: Elementos en y=16, y=63, etc. sugieren layout desde arriba, no centrado
+- **Espaciado consistente**: Calcular diferencias entre coordenadas para obtener gaps reales
+- **Anchos específicos**: Respetar widths exactos para botones y contenedores
+
+**Implementación en Compose:**
+```kotlin
+// ❌ MAL: Posicionamiento absoluto rígido
+Box(modifier = Modifier.offset(x = 16.dp, y = 63.dp))
+
+// ✅ BIEN: Layout flexible que respeta diseño
+Column(
+    modifier = Modifier.padding(16.dp),
+    verticalArrangement = Arrangement.spacedBy(16.dp)
+)
+```
+
+### 🎯 Workflow de Implementación Figma
+
+**Proceso recomendado:**
+1. **Análisis**: Extraer metadatos y especificaciones antes de codificar
+2. **Assets**: Descargar y preparar fuentes/iconos en formatos Android
+3. **Estructura**: Implementar layout base siguiendo coordenadas como guía
+4. **Refinamiento**: Ajustar espaciado y alineación para coincidencia exacta
+5. **Validación**: Comparar resultado con screenshot de Figma
+
+**Herramientas útiles:**
+- Figma Dev Mode para coordenadas exactas
+- Figma API para extracción automática de assets
+- Android Vector Asset Studio para conversión SVG→Vector
+- Google Fonts para descarga directa de fuentes
+
+### ⚡ Patrones de Layout Comunes
+
+**Diálogos centrados:**
+```kotlin
+// Template flexible para diálogos
+@Composable
+fun DialogTemplate(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.TopStart, // No asumir centrado
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(16.dp)
+    ) {
+        Box(modifier = Modifier.align(alignment)) {
+            content()
+        }
+    }
+}
+```
+
+**Botones con width específico:**
+```kotlin
+// Mantener width de diseño pero permitir centrado
+Box(
+    modifier = Modifier.fillMaxWidth(),
+    contentAlignment = Alignment.Center
+) {
+    Box(modifier = Modifier.width(237.dp)) {
+        PrimaryButton(...)
+    }
+}
+```
+
+### 🧹 Mantenimiento de Assets
+
+**Al integrar con Figma:**
+- Crear `.gitignore` entries para archivos temporales
+- Limpiar assets auto-generados antes de commits
+- Documentar origen de assets en comentarios
+- Mantener versiones de assets organizadas por features
+
+**Estructura recomendada:**
+```
+res/
+├── drawable/
+│   ├── ic_[feature]_[name].xml     # Vector drawables
+│   └── [feature]_[asset].png       # Bitmaps si necesario
+├── font/
+│   ├── [family]_regular.ttf
+│   ├── [family]_bold.ttf
+│   └── [family].xml                # FontFamily definition
+└── values/
+    ├── colors.xml                  # Colores extraídos de Figma
+    └── dimens.xml                  # Dimensiones específicas
+```
+
+---
+
 _"La arquitectura es el esqueleto sobre el cual se construye la carne del código"_ 💀⚡
