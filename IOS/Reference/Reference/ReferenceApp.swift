@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ReferenceApp: App {
+    // Dependency Injection Container
+    let container = AppDependencyContainer()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppNavigationView()
+                .environmentObject(container)
         }
     }
 }
