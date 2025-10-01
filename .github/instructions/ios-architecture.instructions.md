@@ -130,7 +130,7 @@ struct PrimaryButton: View {
     let title: String
     let action: () -> Void
     var isEnabled: Bool = true
-    
+
     var body: some View {
         Button(action: action) {
             Text(title)
@@ -149,12 +149,12 @@ struct PrimaryButton: View {
 struct SearchBar: View {
     @Binding var query: String
     let onSearch: () -> Void
-    
+
     var body: some View {
         HStack {
             TextField("Buscar...", text: $query)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-            
+
             PrimaryButton(title: "Buscar", action: onSearch)
                 .frame(width: 80)
         }
@@ -165,7 +165,7 @@ struct SearchBar: View {
 struct ProductList: View {
     let products: [Product]
     let onProductTap: (Product) -> Void
-    
+
     var body: some View {
         LazyVStack(spacing: 8) {
             ForEach(products) { product in
@@ -181,13 +181,13 @@ struct ProductList: View {
 struct ListTemplate<TopBar: View, Content: View>: View {
     let topBar: TopBar
     let content: Content
-    
-    init(@ViewBuilder topBar: () -> TopBar, 
+
+    init(@ViewBuilder topBar: () -> TopBar,
          @ViewBuilder content: () -> Content) {
         self.topBar = topBar()
         self.content = content()
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             topBar
@@ -200,7 +200,7 @@ struct ListTemplate<TopBar: View, Content: View>: View {
 // SCREENS - Pantallas completas
 struct ProductListScreen: View {
     @StateObject private var viewModel = ProductListViewModel()
-    
+
     var body: some View {
         ListTemplate(
             topBar: {
@@ -226,17 +226,17 @@ struct ProductListScreen: View {
 @MainActor
 class FeatureViewModel: ObservableObject {
     @Published var state = FeatureState()
-    
+
     private let useCase: FeatureUseCaseProtocol
     private var cancellables = Set<AnyCancellable>()
-    
+
     init(useCase: FeatureUseCaseProtocol) {
         self.useCase = useCase
     }
-    
+
     func loadData() {
         state.isLoading = true
-        
+
         useCase.execute()
             .receive(on: DispatchQueue.main)
             .sink(
@@ -282,7 +282,7 @@ enum AppRoute: Codable, Hashable {
 
 struct AppNavigationView: View {
     @State private var navigationPath = NavigationPath()
-    
+
     var body: some View {
         NavigationStack(path: $navigationPath) {
             HomeScreen()
@@ -310,11 +310,11 @@ protocol GetUserDataUseCaseProtocol {
 
 class GetUserDataUseCase: GetUserDataUseCaseProtocol {
     private let repository: UserRepositoryProtocol
-    
+
     init(repository: UserRepositoryProtocol) {
         self.repository = repository
     }
-    
+
     func execute(userId: String) -> AnyPublisher<User, Error> {
         repository.getUserData(userId: userId)
     }
@@ -335,7 +335,7 @@ protocol DependencyContainer {
 
 class AppDependencyContainer: DependencyContainer {
     lazy var userRepository: UserRepositoryProtocol = UserRepository()
-    
+
     lazy var getUserUseCase: GetUserDataUseCaseProtocol = {
         GetUserDataUseCase(repository: userRepository)
     }()
@@ -348,7 +348,7 @@ class AppDependencyContainer: DependencyContainer {
 @main
 struct ReferenceApp: App {
     let container = AppDependencyContainer()
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -363,11 +363,11 @@ struct ReferenceApp: App {
 ```swift
 class ViewModelFactory {
     private let container: DependencyContainer
-    
+
     init(container: DependencyContainer) {
         self.container = container
     }
-    
+
     func makeFeatureViewModel() -> FeatureViewModel {
         FeatureViewModel(useCase: container.getUserUseCase)
     }
@@ -528,13 +528,13 @@ VStack(spacing: 16) {
 struct DialogTemplate<Content: View>: View {
     let content: Content
     var alignment: Alignment = .topLeading
-    
-    init(alignment: Alignment = .topLeading, 
+
+    init(alignment: Alignment = .topLeading,
          @ViewBuilder content: () -> Content) {
         self.alignment = alignment
         self.content = content()
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             content
@@ -603,7 +603,7 @@ class KeychainManager {
             kSecAttrAccount as String: key,
             kSecValueData as String: data
         ]
-        
+
         SecItemDelete(query as CFDictionary)
         return SecItemAdd(query as CFDictionary, nil) == errSecSuccess
     }
